@@ -5,6 +5,7 @@
   "hints": {
     "disown-opener": "off",
     "axe/forms": "off",
-    "button-type": "off"
+    "button-type": "off",
+    "leading-dot-classlist": "off"
   }
 }
