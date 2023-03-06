@@ -14,6 +14,9 @@ const tabs = document.querySelectorAll('.operations__tab');
 const tabContainer = document.querySelector('.operations__tab-container');
 const tabContents = document.querySelectorAll('.operations__content');
 const nav = document.querySelector('.nav');
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+const allSection = document.querySelectorAll('.section');
 
 
 //Modal window
@@ -104,9 +107,6 @@ nav.addEventListener('mouseout', navLinksHoverAnimation.bind(1));
 
 // Sticky navigation
 
-const header = document.querySelector('.header');
-const navHeight = nav.getBoundingClientRect().height;
-
 const getStickyNav = function (entries) {
   const entry = entries[0];
   if (!entry.isIntersecting) {
@@ -116,10 +116,31 @@ const getStickyNav = function (entries) {
   }
 };
 
-const observer = new IntersectionObserver
+const headerObserver = new IntersectionObserver
 (getStickyNav, {
   root: null,
   threshold: 0,
   rootMargin: `-${navHeight}px`,  
 });
-observer.observe(header);
+headerObserver.observe(header);
+
+// Section animation
+
+const appearanceSection =function(entries, observer) {
+  const entry = entries[0];
+  if (!entry.isIntersecting) return;
+  entry.target.classList.remove('section--hidden');
+  observer.unobserve(entry)
+};
+
+const sectionObserver = new IntersectionObserver(
+  appearanceSection, {
+    root: null,
+    threshold: 0.2,
+  }
+);
+
+allSection.forEach(function(section) {
+  sectionObserver.observe(section);
+  section.classList.add('section--hidden');
+});
