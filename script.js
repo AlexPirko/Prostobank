@@ -101,3 +101,25 @@ const navLinksHoverAnimation = function(e) {
 nav.addEventListener('mouseover', navLinksHoverAnimation.bind(0.4));
 
 nav.addEventListener('mouseout', navLinksHoverAnimation.bind(1));
+
+// Sticky navigation
+
+const header = document.querySelector('.header');
+const navHeight = nav.getBoundingClientRect().height;
+
+const getStickyNav = function (entries) {
+  const entry = entries[0];
+  if (!entry.isIntersecting) {
+    nav.classList.add('sticky');
+  } else {
+    nav.classList.remove('sticky');
+  }
+};
+
+const observer = new IntersectionObserver
+(getStickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,  
+});
+observer.observe(header);
